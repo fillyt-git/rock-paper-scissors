@@ -13,13 +13,6 @@ function getComputerChoice() {
 let computerSelection = getComputerChoice().toLowerCase();
 let playerSelection;
 
-const gameButtons = document.querySelectorAll('#gameButtons');
-gameButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        playerSelection = button.id;
-    });
-});
-
 /* for (; (playerSelection !== ("rock" || "paper" || "scissors")); ) {
     playerSelection = prompt("Error, choose again.").toLowerCase();
 }; */
@@ -32,20 +25,32 @@ function play(playerSelection, computerSelection) {
             return (
                 `You Win! ${playerSelection.toUpperCase().charAt(0)}` + `${playerSelection.slice(1)}`+ 
                 ` beats ${computerSelection.toUpperCase().charAt(0)}` + `${computerSelection.slice(1)}!`
-            )
+            );
         case "rockpaper":
         case "scissorsrock":
         case "paperscissors":
             return (
                 `You Lose! ${computerSelection.toUpperCase().charAt(0)}` + `${computerSelection.slice(1)}` + 
                 ` beats ${playerSelection.toUpperCase().charAt(0)}` + `${playerSelection.slice(1)}!`
-            )
+            );
         case "rockrock":
         case "paperpaper":
         case "scissorsscissors":
-            return "tie";
+            return "Tie, go again!";
     };
 };
+
+const gameButtons = document.querySelectorAll('#gameButtons button');
+gameButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+
+        playerSelection = `${button.id}`;
+
+        console.log(playerSelection);
+        console.log(computerSelection);
+        console.log(play(playerSelection, computerSelection));
+    });
+});
 
 /* if (play(playerSelection, computerSelection) === "tie") {
     console.log("Tie!");
@@ -57,4 +62,4 @@ function play(playerSelection, computerSelection) {
     play(playerSelection, computerSelection);
 } */
 
-console.log(play(playerSelection, computerSelection))
+/* console.log(play(playerSelection, computerSelection)) */
