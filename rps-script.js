@@ -7,15 +7,22 @@ function getComputerChoice() {
             return "Paper";
         case 2:
             return "Scissors";
-        }  
-}
+        }; 
+};
 
-let computerSelection = getComputerChoice().toLowerCase()
-let playerSelection = prompt("Choice").toLowerCase()
+let computerSelection = getComputerChoice().toLowerCase();
+let playerSelection;
 
-for (; (playerSelection !== ("rock" || "paper" || "scissors")); ) {
+const gameButtons = document.querySelectorAll('#gameButtons');
+gameButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerSelection = button.id;
+    });
+});
+
+/* for (; (playerSelection !== ("rock" || "paper" || "scissors")); ) {
     playerSelection = prompt("Error, choose again.").toLowerCase();
-}
+}; */
 
 function play(playerSelection, computerSelection) {
     switch (playerSelection + computerSelection) {
@@ -37,10 +44,10 @@ function play(playerSelection, computerSelection) {
         case "paperpaper":
         case "scissorsscissors":
             return "tie";
-    }
-}
+    };
+};
 
-if (play(playerSelection, computerSelection) === "tie") {
+/* if (play(playerSelection, computerSelection) === "tie") {
     console.log("Tie!");
     computerSelection = getComputerChoice().toLowerCase();
     playerSelection = prompt("Choose Again").toLowerCase();
@@ -48,6 +55,6 @@ if (play(playerSelection, computerSelection) === "tie") {
         playerSelection = prompt("Error, choose again.").toLowerCase();
     };
     play(playerSelection, computerSelection);
-}
+} */
 
 console.log(play(playerSelection, computerSelection))
