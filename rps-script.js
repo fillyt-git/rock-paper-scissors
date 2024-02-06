@@ -1,42 +1,63 @@
 
+let computerSelection;
+let playerSelection;
+let computerScore = 0;
+let playerScore = 0;
+let roundResult = "";
+const result = document.querySelector('#result');
+const scoreboard = document.querySelector('#scoreboard');
+
 function getComputerChoice() {
     switch (Math.floor(Math.random() * 3)) {
         case 0:
-            return "Rock";
+            return "rock";
         case 1:
-            return "Paper";
+            return "paper";
         case 2:
-            return "Scissors";
+            return "scissors";
         }; 
 };
 
-let computerSelection = getComputerChoice().toLowerCase();
-let playerSelection;
-
-/* for (; (playerSelection !== ("rock" || "paper" || "scissors")); ) {
-    playerSelection = prompt("Error, choose again.").toLowerCase();
-}; */
-
 function play(playerSelection, computerSelection) {
-    switch (playerSelection + computerSelection) {
-        case "paperrock":
-        case "rockscissors":
-        case "scissorspaper":
-            return (
-                `You Win! ${playerSelection.toUpperCase().charAt(0)}` + `${playerSelection.slice(1)}`+ 
-                ` beats ${computerSelection.toUpperCase().charAt(0)}` + `${computerSelection.slice(1)}!`
-            );
-        case "rockpaper":
-        case "scissorsrock":
-        case "paperscissors":
-            return (
-                `You Lose! ${computerSelection.toUpperCase().charAt(0)}` + `${computerSelection.slice(1)}` + 
-                ` beats ${playerSelection.toUpperCase().charAt(0)}` + `${playerSelection.slice(1)}!`
-            );
-        case "rockrock":
-        case "paperpaper":
-        case "scissorsscissors":
-            return "Tie, go again!";
+    if (playerScore === 5) {
+        roundResult = 'You won best out of 5!';
+        playerScore
+    } else if (computerScore === 5) {
+        roundResult = 'You lost best out of 5!';
+    } else {
+        switch (playerSelection + computerSelection) {
+            case "paperrock":
+            case "rockscissors":
+            case "scissorspaper":
+                playerScore += 1;
+                if (playerScore === 5) {
+                    roundResult = 'You won best out of 5!';
+                } else {
+                    roundResult = (
+                        `You Win! ${playerSelection.toUpperCase().charAt(0)}` + `${playerSelection.slice(1)}`+ 
+                        ` beats ${computerSelection.toUpperCase().charAt(0)}` + `${computerSelection.slice(1)}!`
+                    );
+                };
+                break;
+            case "rockpaper":
+            case "scissorsrock":
+            case "paperscissors":
+                computerScore += 1;
+                if (computerScore === 5) {
+                    roundResult = 'You lost best out of 5!';
+                } else {
+                    roundResult = (
+                        `You Lose! ${computerSelection.toUpperCase().charAt(0)}` + `${computerSelection.slice(1)}` + 
+                        ` beats ${playerSelection.toUpperCase().charAt(0)}` + `${playerSelection.slice(1)}!`
+                    );
+                };
+                break;
+            case "rockrock":
+            case "paperpaper":
+            case "scissorsscissors":
+                roundResult = "Tie, go again!";
+                break;
+        };
     };
 };
 
@@ -44,22 +65,15 @@ const gameButtons = document.querySelectorAll('#gameButtons button');
 gameButtons.forEach((button) => {
     button.addEventListener('click', () => {
 
-        playerSelection = `${button.id}`;
-
-        console.log(playerSelection);
-        console.log(computerSelection);
-        console.log(play(playerSelection, computerSelection));
+        playerSelection = button.id;
+        computerSelection = getComputerChoice();
+        play(playerSelection, computerSelection);
+        result.textContent = roundResult;
+        scoreboard.textContent = `Player Score: ${playerScore}
+                                Computer Score: ${computerScore}`;
+        if (playerScore === 5 || computerScore === 5) {
+            playerScore = 0;
+            computerScore = 0;
+        };
     });
 });
-
-/* if (play(playerSelection, computerSelection) === "tie") {
-    console.log("Tie!");
-    computerSelection = getComputerChoice().toLowerCase();
-    playerSelection = prompt("Choose Again").toLowerCase();
-    for (; (playerSelection !== ("rock" || "paper" || "scissors")); ) {
-        playerSelection = prompt("Error, choose again.").toLowerCase();
-    };
-    play(playerSelection, computerSelection);
-} */
-
-/* console.log(play(playerSelection, computerSelection)) */
